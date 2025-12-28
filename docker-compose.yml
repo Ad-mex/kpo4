@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mydb
+    ports:
+      - "5435:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  payments:
+    build:
+      context: .
+      dockerfile: ./PaymentsService/Dockerfile
+    environment:
+      DB_CONNECTION: "Host=db;Database=mydb;Username=postgres;Password=secret"
+    depends_on:
+      - db
+      - rabbitmq
+
+  orders:
+    build:
+      context: .
+      dockerfile: ./OrdersService/Dockerfile
+    environment:
+      DB_CONNECTION: "Host=db;Database=mydb;Username=postgres;Password=secret"
+    depends_on:
+      - db
+      - rabbitmq
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./ApiGateway/Dockerfile
+    environment:
+      PAYMENTS: "http://payments:8080"
+      ORDERS: "http://orders:8080"
+    depends_on:
+      - payments
+      - orders
+    ports:
+      - "5150:8080"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"    
+      - "15672:15672"
+  frontend:
+    build: ./Frontend
+    container_name: frontend
+    ports:
+      - "5151:80"
+volumes:
+  db_data:

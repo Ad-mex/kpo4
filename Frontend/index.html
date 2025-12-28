@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="panel left">
+        <h1>id пользователя:</h1>
+        <input type="text" id="userIdInput" />
+        <button id="changeIdBtn">Сменить ID</button>
+
+        <h1>Мои заказы</h1>
+        <button id="refreshOrdersBtn">Обновить</button>
+        <div id="ordersContainer">Загрузка...</div>
+    </div>
+
+    <div id="orderModal" class="modal" style="display: none;">
+        <div class="modal-content" id="orderModalContent">
+            <h2>Описание заказа</h2>
+            <div id="orderDescription"></div>
+            <div id="orderStatus"></div>
+        </div>
+    </div>
+
+
+
+    <div class="panel right">
+
+
+        <h1>Баланс</h1>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+            <div id="balanceValue">Загрузка...</div>
+            <button id="refreshBalanceBtn">Обновить</button>
+        </div>
+
+        <button id="createAccountBtn" style="display: none;">Создать счёт</button>
+        <button id="depositBtn" style="display: none;">Пополнить счёт</button>
+        <button id="createOrderBtn" style="display: none;">Создать заказ</button>
+
+        <div id="orderCreateModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Создать заказ</h2>
+                <input type="text" id="orderDescriptionInput" placeholder="Описание (не обязательно)" />
+                <input type="number" id="orderAmountInput" placeholder="Сумма" min="0" />
+                <button id="orderCreateConfirmBtn">Создать</button>
+                <button id="orderCreateCancelBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="depositModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Пополнить счёт</h2>
+            <input type="number" id="depositAmount" placeholder="Сумма" min="0" />
+            <button id="depositConfirmBtn">Пополнить</button>
+            <button id="depositCancelBtn">Отмена</button>
+        </div>
+    </div>
+
+    <div id="toast" style="display:none;"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
